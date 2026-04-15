@@ -1,32 +1,11 @@
-import * as React from 'react'
 import { useRef, useState } from 'react'
-import type { JSX } from 'react'
-
-const BASE_URLS = ['https://www.youtube.com/', 'https://youtu.be/']
-const EMBED_PROVIDER_URL =
-  'https://inkdrop-embed-provider.vercel.app/youtube.html'
+import type {
+  EmbeddedComponentProps,
+  EmbeddingProvider
+} from '@inkdropapp/types'
+import { isYouTubeURL, extractVideoIdFromURL, getEmbedURL } from './utils.js'
 
 export const PROVIDER_ID = 'embed:youtube'
-
-type EmbeddedComponentProps = JSX.IntrinsicElements['a']
-
-export interface EmbeddingProvider {
-  id: string
-  test: (url: string) => boolean
-  getComponent: () => React.FC<EmbeddedComponentProps>
-}
-
-export function extractVideoIdFromURL(url: string): string | null {
-  if (url.startsWith('https://www.youtube.com/')) {
-    const query = new URLSearchParams(url.split('?')[1])
-    return query.get('v')
-  } else if (url.startsWith('https://youtu.be/')) {
-    const parts = url.split('/')
-    const lastPart = parts[parts.length - 1]
-    return lastPart.split('?')[0]
-  }
-  return null
-}
 
 const YouTube: React.FC<EmbeddedComponentProps> = props => {
   const { href } = props
@@ -35,7 +14,7 @@ const YouTube: React.FC<EmbeddedComponentProps> = props => {
   const videoId = href ? extractVideoIdFromURL(href) : null
 
   if (videoId) {
-    const url = `${EMBED_PROVIDER_URL}?v=${encodeURIComponent(videoId)}&id=${frameId}`
+    const url = getEmbedURL(videoId, frameId)
 
     return (
       <iframe
@@ -61,6 +40,6 @@ const YouTube: React.FC<EmbeddedComponentProps> = props => {
 
 export const youtubeProvider: EmbeddingProvider = {
   id: PROVIDER_ID,
-  test: (url: string) => BASE_URLS.some(baseUrl => url.startsWith(baseUrl)),
+  test: (url: string) => isYouTubeURL(url),
   getComponent: () => YouTube
 }
