@@ -1,7 +1,7 @@
 {
   "name": "embed-youtube",
   "main": "./lib/index.js",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Embed YouTube videos in Inkdrop notes",
   "keywords": [
     "youtube",
