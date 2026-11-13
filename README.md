@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This repository has moved to [inkdropapp/plugins](https://github.com/inkdropapp/plugins): [`packages/embed-youtube`](https://github.com/inkdropapp/plugins/tree/main/packages/embed-youtube). It is archived and read-only; please open issues and pull requests there.
+
 # embed-youtube
 
 Embed YouTube videos in [Inkdrop](https://www.inkdrop.app/) notes.
